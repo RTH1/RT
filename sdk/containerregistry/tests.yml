@@ -5,7 +5,6 @@ stages:
     parameters:
       ServiceDirectory: containerregistry
       SupportedClouds: 'Public,UsGov,China'
-      EnvVars:
       Artifacts:
         - name: azure-containers-containerregistry
           groupId: com.azure
