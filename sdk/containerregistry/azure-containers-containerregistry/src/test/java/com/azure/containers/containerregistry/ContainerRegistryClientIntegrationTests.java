@@ -179,17 +179,13 @@ public class ContainerRegistryClientIntegrationTests extends ContainerRegistryCl
     @ParameterizedTest(name = DISPLAY_NAME_WITH_ARGUMENTS)
     @MethodSource("getHttpClients")
     public void authenticationScopeTest(HttpClient httpClient) {
-        String authority = getAuthority(REGISTRY_ENDPOINT);
-        if (authority == AzureAuthorityHosts.AZURE_PUBLIC_CLOUD) {
-            ContainerRegistryClient registryClient = getContainerRegistryBuilder(httpClient)
-                .authenticationScope(AZURE_GLOBAL_AUTHENTICATION_SCOPE)
-                .buildClient();
+        Assumptions.assumeTrue(getAuthority(REGISTRY_ENDPOINT).equals(AzureAuthorityHosts.AZURE_PUBLIC_CLOUD));
+        ContainerRegistryClient registryClient = getContainerRegistryBuilder(httpClient)
+            .authenticationScope(AZURE_GLOBAL_AUTHENTICATION_SCOPE)
+            .buildClient();
 
-            List<String> repositories = registryClient.listRepositoryNames().stream().collect(Collectors.toList());
-            validateRepositories(repositories);
-
-
-        }
+        List<String> repositories = registryClient.listRepositoryNames().stream().collect(Collectors.toList());
+        validateRepositories(repositories);
     }
 
 
@@ -197,7 +193,7 @@ public class ContainerRegistryClientIntegrationTests extends ContainerRegistryCl
     @MethodSource("getHttpClients")
     public void authenticationScopeTestNegative(HttpClient httpClient) {
         Assumptions.assumeFalse(getTestMode().equals(TestMode.PLAYBACK));
-
+        Assumptions.assumeTrue(getAuthority(REGISTRY_ENDPOINT).equals(AzureAuthorityHosts.AZURE_PUBLIC_CLOUD));
         ContainerRegistryClient throwableRegistryClient = getContainerRegistryBuilder(httpClient)
             .authenticationScope(AZURE_GOV_AUTHENTICATION_SCOPE)
             .buildClient();
