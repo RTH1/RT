@@ -1,0 +1,140 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.azurecr.io/oauth2/exchange",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "a78bf311-cb64-4871-922f-08ddcccc905a",
+      "Content-Type" : "application/x-www-form-urlencoded"
+    },
+    "Response" : {
+      "X-Ms-Correlation-Request-Id" : "495f537e-a9ea-4f9f-a65f-62b75cd80d1b",
+      "content-length" : "78",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "Server" : "openresty",
+      "Connection" : "keep-alive",
+      "x-ms-ratelimit-remaining-calls-per-second" : "159.233333",
+      "retry-after" : "0",
+      "StatusCode" : "401",
+      "Body" : "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}",
+      "Date" : "Wed, 21 Jul 2021 20:15:21 GMT",
+      "Content-Type" : "application/json"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "GET",
+    "Uri" : "https://REDACTED.azurecr.io/acr/v1/_catalog",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "18c94b5b-b0f7-45f8-87f2-7a23c64347d2"
+    },
+    "Response" : null,
+    "Exception" : {
+      "ClassName" : "com.azure.containers.containerregistry.implementation.models.AcrErrorsException",
+      "ErrorMessage" : "Status code 401, \"{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}\""
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.azurecr.io/oauth2/exchange",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "7ca14514-9afa-4816-8442-da8b9b59d6c7",
+      "Content-Type" : "application/x-www-form-urlencoded"
+    },
+    "Response" : {
+      "X-Ms-Correlation-Request-Id" : "fc684c3c-c83f-4404-a28d-1b096c7d9512",
+      "content-length" : "78",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "Server" : "openresty",
+      "Connection" : "keep-alive",
+      "x-ms-ratelimit-remaining-calls-per-second" : "164.4",
+      "retry-after" : "0",
+      "StatusCode" : "401",
+      "Body" : "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}",
+      "Date" : "Wed, 21 Jul 2021 20:15:51 GMT",
+      "Content-Type" : "application/json"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "GET",
+    "Uri" : "https://REDACTED.azurecr.io/acr/v1/_catalog",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "18c94b5b-b0f7-45f8-87f2-7a23c64347d2"
+    },
+    "Response" : null,
+    "Exception" : {
+      "ClassName" : "com.azure.containers.containerregistry.implementation.models.AcrErrorsException",
+      "ErrorMessage" : "Status code 401, \"{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}\""
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.azurecr.io/oauth2/exchange",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "0e7ff606-80f8-432e-b438-d5196cbd229f",
+      "Content-Type" : "application/x-www-form-urlencoded"
+    },
+    "Response" : {
+      "X-Ms-Correlation-Request-Id" : "08a36055-0f87-4c22-9f0d-cd8c7979b2ae",
+      "content-length" : "78",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "Server" : "openresty",
+      "Connection" : "keep-alive",
+      "x-ms-ratelimit-remaining-calls-per-second" : "166.616667",
+      "retry-after" : "0",
+      "StatusCode" : "401",
+      "Body" : "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}",
+      "Date" : "Wed, 21 Jul 2021 20:16:21 GMT",
+      "Content-Type" : "application/json"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "GET",
+    "Uri" : "https://REDACTED.azurecr.io/acr/v1/_catalog",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "18c94b5b-b0f7-45f8-87f2-7a23c64347d2"
+    },
+    "Response" : null,
+    "Exception" : {
+      "ClassName" : "com.azure.containers.containerregistry.implementation.models.AcrErrorsException",
+      "ErrorMessage" : "Status code 401, \"{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}\""
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.azurecr.io/oauth2/exchange",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "cc679207-cf29-4160-a729-de7b580b2683",
+      "Content-Type" : "application/x-www-form-urlencoded"
+    },
+    "Response" : {
+      "X-Ms-Correlation-Request-Id" : "a7182bd8-9d00-470f-89cf-ecd73e39e1cd",
+      "content-length" : "78",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "Server" : "openresty",
+      "Connection" : "keep-alive",
+      "x-ms-ratelimit-remaining-calls-per-second" : "166.116667",
+      "retry-after" : "0",
+      "StatusCode" : "401",
+      "Body" : "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}",
+      "Date" : "Wed, 21 Jul 2021 20:16:51 GMT",
+      "Content-Type" : "application/json"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "GET",
+    "Uri" : "https://REDACTED.azurecr.io/acr/v1/_catalog",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.10; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "18c94b5b-b0f7-45f8-87f2-7a23c64347d2"
+    },
+    "Response" : null,
+    "Exception" : {
+      "ClassName" : "com.azure.containers.containerregistry.implementation.models.AcrErrorsException",
+      "ErrorMessage" : "Status code 401, \"{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"retrieving permissions failed\"}]}\""
+    }
+  } ],
+  "variables" : [ ]
+}
