@@ -13,43 +13,43 @@ public final class KeyVaultKeyNearExpiryEventData {
     /*
      * The id of the object that triggered this event.
      */
-    @JsonProperty(value = "Id")
+    @JsonProperty(value = "id")
     private String id;
 
     /*
      * Key vault name of the object that triggered this event.
      */
-    @JsonProperty(value = "VaultName")
+    @JsonProperty(value = "vaultName")
     private String vaultName;
 
     /*
      * The type of the object that triggered this event
      */
-    @JsonProperty(value = "ObjectType")
+    @JsonProperty(value = "objectType")
     private String objectType;
 
     /*
      * The name of the object that triggered this event
      */
-    @JsonProperty(value = "ObjectName")
+    @JsonProperty(value = "objectName")
     private String objectName;
 
     /*
      * The version of the object that triggered this event
      */
-    @JsonProperty(value = "Version")
+    @JsonProperty(value = "version")
     private String version;
 
     /*
      * Not before date of the object that triggered this event
      */
-    @JsonProperty(value = "NBF")
+    @JsonProperty(value = "nbf")
     private Float nbf;
 
     /*
      * The expiration date of the object that triggered this event
      */
-    @JsonProperty(value = "EXP")
+    @JsonProperty(value = "exp")
     private Float exp;
 
     /**
