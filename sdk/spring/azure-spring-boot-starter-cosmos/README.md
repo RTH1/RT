@@ -39,20 +39,45 @@
 - Supports [spring-boot-starter-data-rest](https://projects.spring.io/spring-data-rest/).
 - Supports List and nested type in domain class.
 
+### Configuration Options
+Azure Cosmos Spring Boot Starter deprecates all legacy properties of which the prefix is `azure.cosmos` and uses `spring.cloud.azure.cosmos` instead.
+When a deprecated property is detected while its active property is not found, the active property will be configured into the application environment with the value from the deprecated property.
+
+If you load configuration properties from Azure Key Vault, the preceding detection and replacement are also applicable for Key Vault property sources. Replaced properties from Key Vault have a higher priority than local ones.
+Note that replaced properties will not be refreshed as common properties from Key Vault property source.
+#### Active Properties
+
+|Name|Description|
+|:---|:---
+spring.cloud.azure.cosmos.connection-mode|Represents the connection mode to be used by the client in the Azure Cosmos DB database service.|
+spring.cloud.azure.cosmos.consistency-level|Cosmos DB consistency level.|
+spring.cloud.azure.cosmos.database|Cosmos DB database name.|
+spring.cloud.azure.cosmos.key|Cosmos DB key.|
+spring.cloud.azure.cosmos.populate-query-metrics|Populate Diagnostics Strings and Query metrics.|
+spring.cloud.azure.cosmos.uri|Cosmos DB URI.|
+
+#### Deprecated Properties
+|Obsolete Type|Description|Replacement Type|
+|:---|:---|:---
+azure.cosmos.connection-mode|Represents the connection mode to be used by the client in the Azure Cosmos DB database service.|**spring.cloud.azure.cosmos.connection-mode**|
+azure.cosmos.consistency-level|Cosmos DB consistency level.|**spring.cloud.azure.cosmos.consistency-level**|
+azure.cosmos.database|Cosmos DB database name.|**spring.cloud.azure.cosmos.database** |
+azure.cosmos.key|Cosmos DB key.|**spring.cloud.azure.cosmos.key**|
+azure.cosmos.populate-query-metrics|Populate Diagnostics Strings and Query metrics.|**spring.cloud.azure.cosmos.populate-query-metrics** |
+azure.cosmos.uri|Cosmos DB URI.|**spring.cloud.azure.cosmos.uri** |
+
 ## Examples
 ### Add the property setting
 
 Open `application.properties` file and add below properties with your Cosmos DB credentials.
 
 ```properties
-azure.cosmos.uri=your-cosmos-uri
-azure.cosmos.key=your-cosmos-key
-azure.cosmos.database=your-cosmos-databasename
-azure.cosmos.populateQueryMetrics=true
+spring.cloud.azure.cosmos.uri=your-cosmos-uri
+spring.cloud.azure.cosmos.key=your-cosmos-key
+spring.cloud.azure.cosmos.database=your-cosmos-databasename
+spring.cloud.azure.cosmos.populateQueryMetrics=true
 secondary-key=put-your-cosmos-secondary-key-here
 ```
-
-Property `azure.cosmos.consistency-level` is also supported.
 
 AzureKeyCredential feature provides capability to rotate keys on the fly. You can use `AzureKeyCredential.update()` methods to rotate key. For more information on this, see the [Sample Application][sample_cosmos_switch_key] code.
 
@@ -281,7 +306,7 @@ Besides using this Azure Cosmos DB Spring Boot Starter, you can directly use Spr
 
 The following section provide a sample project illustrating how to use the starter.
 ### More sample code
-- [Cosmos DB SQL API](https://github.com/Azure-Samples/azure-spring-boot-samples/tree/main/cosmos/azure-spring-boot-sample-cosmos)
+- [Cosmos DB SQL API](https://github.com/Azure-Samples/azure-spring-boot-samples/tree/main/cosmos/azure-spring-boot-starter-cosmos)
 
 ## Contributing
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.microsoft.com.
@@ -292,7 +317,7 @@ Please follow [instructions here](https://github.com/Azure/azure-sdk-for-java/bl
 [docs]: https://docs.microsoft.com/azure/developer/java/spring-framework/configure-spring-boot-starter-java-app-with-cosmos-db
 [refdocs]: https://azure.github.io/azure-sdk-for-java/springboot.html#azure-spring-boot
 [package]: https://mvnrepository.com/artifact/com.microsoft.azure/azure-cosmosdb-spring-boot-starter
-[sample]: https://github.com/Azure-Samples/azure-spring-boot-samples/tree/main/cosmos/azure-spring-boot-sample-cosmos
+[sample]: https://github.com/Azure-Samples/azure-spring-boot-samples/tree/main/cosmos/azure-spring-boot-starter-cosmos
 [logging]: https://github.com/Azure/azure-sdk-for-java/wiki/Logging-with-Azure-SDK#use-logback-logging-framework-in-a-spring-boot-application
 [sample_cosmos_switch_key]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/cosmos/azure-spring-data-cosmos/src/samples/java/com/azure/spring/data/cosmos/SampleApplication.java
 [environment_checklist]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/spring/ENVIRONMENT_CHECKLIST.md#ready-to-run-checklist
