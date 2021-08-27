@@ -1,8 +1,5 @@
 # Release History
 
-## 1.0.4 (2021-08-26)
-Added `azure-communication-networktraversal` package
-
 ## 1.0.3 (2021-06-28)
 Updated `azure-communication-common` version
 

@@ -37,6 +37,7 @@ import javax.crypto.spec.SecretKeySpec;
  * HttpPipelinePolicy to append CommunicationClient required headers
  */
 public final class HmacAuthenticationPolicy implements HttpPipelinePolicy {
+    private static final String DATE_HEADER = "date";
     private static final String X_MS_DATE_HEADER = "x-ms-date";
     private static final String X_MS_STRING_TO_SIGN_HEADER = "x-ms-hmac-string-to-sign-base64";
     private static final String HOST_HEADER = "host";
@@ -121,6 +122,7 @@ public final class HmacAuthenticationPolicy implements HttpPipelinePolicy {
         String utcNow = OffsetDateTime.now(ZoneOffset.UTC)
             .format(HMAC_DATETIMEFORMATTER_PATTERN);
         headers.put(X_MS_DATE_HEADER, utcNow);
+        headers.put(DATE_HEADER, utcNow);
         headers.put(HOST_HEADER, url.getHost());
         addSignatureHeader(url, httpMethod, headers);
         return headers;
