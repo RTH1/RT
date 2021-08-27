@@ -42,15 +42,10 @@ public class ChatOptionsProvider {
     }
 
     public static SendChatMessageOptions sendMessageOptions() {
-        return sendMessageOptions(ChatMessageType.TEXT, "Content");
-    }
-
-    public static SendChatMessageOptions sendMessageOptions(ChatMessageType type, String content) {
         SendChatMessageOptions options = new SendChatMessageOptions();
-        options.setContent(content);
+        options.setContent("Content");
         options.setSenderDisplayName("Tester");
-        options.setType(type);
-        options.setMetadata(generateMessageMetadata());
+        options.setType(ChatMessageType.TEXT);
 
         return options;
     }
@@ -58,7 +53,6 @@ public class ChatOptionsProvider {
     public static UpdateChatMessageOptions updateMessageOptions() {
         UpdateChatMessageOptions options = new UpdateChatMessageOptions();
         options.setContent("Update Test");
-        options.setMetadata(generateUpdatedMessageMetadata());
 
         return options;
     }
@@ -69,28 +63,5 @@ public class ChatOptionsProvider {
         chatParticipant.setDisplayName(displayName);
 
         return chatParticipant;
-    }
-
-    private static Map<String, String> generateMessageMetadata() {
-        return new HashMap<String, String>() {
-            {
-                put("tags", "tags value");
-                put("deliveryMode", "deliveryMode value");
-                put("onedriveReferences", "onedriveReferences");
-                put("amsreferences", "[\\\"test url file 3\\\"]");
-                put("key", "value key");
-            }
-        };
-    }
-
-    private static Map<String, String> generateUpdatedMessageMetadata() {
-        return new HashMap<String, String>() {
-            {
-                put("tags", "");
-                put("deliveryMode", "deliveryMode value - updated");
-                put("onedriveReferences", "onedriveReferences - updated");
-                put("amsreferences", "[\\\"test url file 3\\\"]");
-            }
-        };
     }
 }
