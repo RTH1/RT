@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.4 (2021-08-27)
+
+### Dependency Updates
+
+Upgraded `azure-core` and other dependencies for the library.
+
 ## 1.0.3 (2021-06-28)
 Updated `azure-communication-common` version
 
