@@ -1,0 +1,43 @@
+parameters:
+  - name: ServiceDirectory
+    type: string
+  - name: ArtifactName
+    type: string
+  - name: ReleaseVersion
+    type: string
+  - name: BranchName
+    type: string
+  - name: PatchVersion
+    type: string
+    default: ''
+
+trigger: none
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - eng/pipelines/patch-release.yml
+
+steps:
+- task: PowerShell@2
+  displayName: Create patch release
+  inputs:
+    pwsh: true
+    workingDirectory: $(System.DefaultWorkingDirectory)
+    filePath: $(Build.SourcesDirectory)/eng/scripts/Generate-Patch.ps1
+    arguments: >
+      -ArtifactName ${{ parameters.ArtifactName }}
+      -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      -ReleaseVersion ${{ parameters.ReleaseVersion }}
+      -BranchName ${{ parameters.BranchName }}
+      -PatchVersion ${{ parameters.PatchVersion }}
+
+- template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+  parameters:
+    PRBranchName:  ${{ parameters.BranchName }}
+    PRTitle: "[Do not merge] Patch release for ${{ parameters.ServiceDirectory }}_${{ parameters.ArtifactName }}"
+    PRLabels: "do-not-merge"
+    OpenAsDraft: true
