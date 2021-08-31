@@ -67,7 +67,8 @@ function GetPatchVersion($ReleaseVersion) {
 }
 
 function GetRemoteName($MainRemoteUrl) {
-  foreach($Remote in git remote show) {
+  $cmdOutput = git remote show
+  foreach($Remote in $cmdOutput) {
     $RemoteUrl = git remote get-url $Remote
     if($RemoteUrl.toLower() -eq $MainRemoteUrl.toLower()) {
       $Remote = $Remote.Trim()
@@ -221,8 +222,7 @@ Write-Information "PatchVersion is: $PatchVersion"
 
 $RemoteName = GetRemoteName -MainRemoteUrl $MainRemoteUrl
 if($null -eq $RemoteName) {
-    LogError "Could not fetch the remote name for the URL $MainRemoteUrl Exiting ..."
-    exit
+    $RemoteName = "origin"
 }
 Write-Information "RemoteName is: $RemoteName"
 
