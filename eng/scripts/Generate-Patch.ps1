@@ -220,7 +220,6 @@ if('' -eq $PatchVersion) {
 Write-Information "PatchVersion is: $PatchVersion"
 
 $RemoteName = GetRemoteName -MainRemoteUrl $MainRemoteUrl
-$RemoteName = $RemoteName.Trim()
 if($null -eq $RemoteName) {
     LogError "Could not fetch the remote name for the URL $MainRemoteUrl Exiting ..."
     exit
