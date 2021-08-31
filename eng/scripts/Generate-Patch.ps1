@@ -72,7 +72,7 @@ function GetRemoteName($MainRemoteUrl) {
   foreach($Remote in $cmdOutput) {
     $RemoteUrl = git remote get-url $Remote
     if($RemoteUrl.toLower() -eq $MainRemoteUrl.toLower()) {
-      return $Remote
+      return $Remote.Trim()
     }
   }
   return $null
