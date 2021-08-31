@@ -67,9 +67,11 @@ function GetPatchVersion($ReleaseVersion) {
 }
 
 function GetRemoteName($MainRemoteUrl) {
-  foreach($Remote in git remote show) {
+  $cmdOutput = git remote show
+  echo $cmdOutput
+  foreach($Remote in $cmdOutput) {
     $RemoteUrl = git remote get-url $Remote
-    if($RemoteUrl -eq $MainRemoteUrl) {
+    if($RemoteUrl.toLower() -eq $MainRemoteUrl.toLower()) {
       return $Remote
     }
   }
