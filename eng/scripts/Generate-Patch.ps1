@@ -67,12 +67,11 @@ function GetPatchVersion($ReleaseVersion) {
 }
 
 function GetRemoteName($MainRemoteUrl) {
-  $cmdOutput = git remote show
-  echo $cmdOutput
-  foreach($Remote in $cmdOutput) {
+  foreach($Remote in git remote show) {
     $RemoteUrl = git remote get-url $Remote
     if($RemoteUrl.toLower() -eq $MainRemoteUrl.toLower()) {
-      return $Remote.Trim()
+      $Remote = $Remote.Trim()
+      return $Remote
     }
   }
   return $null
@@ -221,6 +220,7 @@ if('' -eq $PatchVersion) {
 Write-Information "PatchVersion is: $PatchVersion"
 
 $RemoteName = GetRemoteName -MainRemoteUrl $MainRemoteUrl
+$RemoteName = $RemoteName.Trim()
 if($null -eq $RemoteName) {
     LogError "Could not fetch the remote name for the URL $MainRemoteUrl Exiting ..."
     exit
@@ -236,7 +236,8 @@ try {
   Write-Information "Resetting the $ArtifactName sources to the release $ReleaseTag."
 
   ## Creating a new branch
-  $CmdOutput = git checkout -b $BranchName $RemoteName/main
+  $TrackingRemoteBranch = "$RemoteName/main"
+  $CmdOutput = git checkout -b $BranchName $TrackingRemoteBranch
   if($LASTEXITCODE -ne 0) {
     LogError "Could not checkout branch $BranchName, please check if it already exists and delete as necessary. Exiting..."
     exit
