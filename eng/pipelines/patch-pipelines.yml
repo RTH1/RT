@@ -21,23 +21,26 @@ pr:
     include:
       - eng/pipelines/patch-release.yml
 
+-job: Prepare patch release
+pool:
+  vmImage: windows-2019
 steps:
-- task: PowerShell@2
-  displayName: Create patch release
-  inputs:
-    pwsh: true
-    workingDirectory: $(System.DefaultWorkingDirectory)
-    filePath: $(Build.SourcesDirectory)/eng/scripts/Generate-Patch.ps1
-    arguments: >
-      -ArtifactName ${{ parameters.ArtifactName }}
-      -ServiceDirectory ${{ parameters.ServiceDirectory }}
-      -ReleaseVersion ${{ parameters.ReleaseVersion }}
-      -BranchName ${{ parameters.BranchName }}
-      -PatchVersion ${{ parameters.PatchVersion }}
+  - task: PowerShell@2
+    displayName: Create sources for patch release
+    inputs:
+      pwsh: true
+      workingDirectory: $(System.DefaultWorkingDirectory)
+      filePath: $(Build.SourcesDirectory)/eng/scripts/Generate-Patch.ps1
+      arguments: >
+        -ArtifactName ${{ parameters.ArtifactName }}
+        -ServiceDirectory ${{ parameters.ServiceDirectory }}
+        -ReleaseVersion ${{ parameters.ReleaseVersion }}
+        -BranchName ${{ parameters.BranchName }}
+        -PatchVersion ${{ parameters.PatchVersion }}
 
-- template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-  parameters:
-    PRBranchName:  ${{ parameters.BranchName }}
-    PRTitle: "[Do not merge] Patch release for ${{ parameters.ServiceDirectory }}_${{ parameters.ArtifactName }}"
-    PRLabels: "do-not-merge"
-    OpenAsDraft: true
+  - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+    parameters:
+      PRBranchName:  ${{ parameters.BranchName }}
+      PRTitle: "[Do not merge] Patch release for ${{ parameters.ServiceDirectory }}_${{ parameters.ArtifactName }}"
+      PRLabels: "do-not-merge"
+      OpenAsDraft: true
