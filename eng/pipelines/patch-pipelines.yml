@@ -21,7 +21,7 @@ pr:
     include:
       - eng/pipelines/patch-release.yml
 jobs:
-  - job: Prepare patch release
+  - job: PreparePatch
     pool:
       vmImage: windows-2019
     steps:
