@@ -34,6 +34,8 @@ public final class AccountSasSignatureValues {
 
     private String resourceTypes;
 
+    private String encryptionScope;
+
     /**
      * Initializes a new {@link AccountSasSignatureValues} object.
      * @deprecated Please use {@link #AccountSasSignatureValues(OffsetDateTime, AccountSasPermission, AccountSasService,
@@ -236,6 +238,24 @@ public final class AccountSasSignatureValues {
     }
 
     /**
+     * @return An encryption scope that will be applied to any write operations performed with the sas
+     */
+    public String getEncryptionScope() {
+        return encryptionScope;
+    }
+
+    /**
+     * Sets the encryption scope that will be applied to any write operations performed with the sas
+     *
+     * @param encryptionScope the encryption scope to set
+     * @return the updated AccountSasSignatureValues object.
+     */
+    public AccountSasSignatureValues setEncryptionScope(String encryptionScope) {
+        this.encryptionScope = encryptionScope;
+        return this;
+    }
+
+    /**
      * Generates a {@link AccountSasQueryParameters} object which contains all SAS query parameters for authenticating
      * requests.
      *
@@ -282,17 +302,33 @@ public final class AccountSasSignatureValues {
     }
 
     private String stringToSign(final StorageSharedKeyCredential storageSharedKeyCredentials) {
-        return String.join("\n",
-            storageSharedKeyCredentials.getAccountName(),
-            AccountSasPermission.parse(this.permissions).toString(), // guarantees ordering
-            this.services,
-            resourceTypes,
-            this.startTime == null ? "" : Constants.ISO_8601_UTC_DATE_FORMATTER.format(this.startTime),
-            Constants.ISO_8601_UTC_DATE_FORMATTER.format(this.expiryTime),
-            this.sasIpRange == null ? "" : this.sasIpRange.toString(),
-            this.protocol == null ? "" : this.protocol.toString(),
-            VERSION,
-            "" // Account SAS requires an additional newline character
-        );
+        if (VERSION.compareTo("2020-10-02") <= 0) {
+            return String.join("\n",
+                storageSharedKeyCredentials.getAccountName(),
+                AccountSasPermission.parse(this.permissions).toString(), // guarantees ordering
+                this.services,
+                resourceTypes,
+                this.startTime == null ? "" : Constants.ISO_8601_UTC_DATE_FORMATTER.format(this.startTime),
+                Constants.ISO_8601_UTC_DATE_FORMATTER.format(this.expiryTime),
+                this.sasIpRange == null ? "" : this.sasIpRange.toString(),
+                this.protocol == null ? "" : this.protocol.toString(),
+                VERSION,
+                "" // Account SAS requires an additional newline character
+            );
+        } else {
+            return String.join("\n",
+                storageSharedKeyCredentials.getAccountName(),
+                AccountSasPermission.parse(this.permissions).toString(), // guarantees ordering
+                this.services,
+                resourceTypes,
+                this.startTime == null ? "" : Constants.ISO_8601_UTC_DATE_FORMATTER.format(this.startTime),
+                Constants.ISO_8601_UTC_DATE_FORMATTER.format(this.expiryTime),
+                this.sasIpRange == null ? "" : this.sasIpRange.toString(),
+                this.protocol == null ? "" : this.protocol.toString(),
+                VERSION,
+                this.encryptionScope == null ? "" : this.encryptionScope,
+                "" // Account SAS requires an additional newline character
+            );
+        }
     }
 }

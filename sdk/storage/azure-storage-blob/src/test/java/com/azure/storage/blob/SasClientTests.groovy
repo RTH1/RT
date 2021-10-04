@@ -43,7 +43,7 @@ class SasClientTests extends APISpec {
 
     def setup() {
         blobName = generateBlobName()
-        sasClient = getBlobClient(env.primaryAccount.credential, cc.getBlobContainerUrl(), blobName).getBlockBlobClient()
+        sasClient = getBlobClient(environment.primaryAccount.credential, cc.getBlobContainerUrl(), blobName).getBlockBlobClient()
         sasClient.upload(data.defaultInputStream, data.defaultDataSize)
     }
 
@@ -161,7 +161,7 @@ class SasClientTests extends APISpec {
     }
 
     // RBAC replication lag
-    @Retry(count = 5, delay = 30, condition = { env.testMode == TestMode.LIVE })
+    @Retry(count = 5, delay = 30, condition = { environment.testMode == TestMode.LIVE })
     def "blob sas user delegation"() {
         setup:
         def permissions = new BlobSasPermission()
@@ -234,7 +234,7 @@ class SasClientTests extends APISpec {
     }
 
     // RBAC replication lag
-    @Retry(count = 5, delay = 30, condition = { env.testMode == TestMode.LIVE })
+    @Retry(count = 5, delay = 30, condition = { environment.testMode == TestMode.LIVE })
     def "blob sas snapshot user delegation"() {
         setup:
         def snapshotBlob = new SpecializedBlobClientBuilder().blobClient(sasClient.createSnapshot()).buildBlockBlobClient()
@@ -273,7 +273,7 @@ class SasClientTests extends APISpec {
     }
 
     // RBAC replication lag
-    @Retry(count = 5, delay = 30, condition = { env.testMode == TestMode.LIVE })
+    @Retry(count = 5, delay = 30, condition = { environment.testMode == TestMode.LIVE })
     def "container sas user delegation"() {
         setup:
         def permissions = new BlobContainerSasPermission()
@@ -399,7 +399,7 @@ class SasClientTests extends APISpec {
     }
 
     // RBAC replication lag
-    @Retry(count = 5, delay = 30, condition = { env.testMode == TestMode.LIVE })
+    @Retry(count = 5, delay = 30, condition = { environment.testMode == TestMode.LIVE })
     def "blob user delegation saoid"() {
         setup:
         def permissions = new BlobSasPermission()
@@ -431,7 +431,7 @@ class SasClientTests extends APISpec {
     }
 
     // RBAC replication lag
-    @Retry(count = 5, delay = 30, condition = { env.testMode == TestMode.LIVE })
+    @Retry(count = 5, delay = 30, condition = { environment.testMode == TestMode.LIVE })
     def "container user delegation correlation id"() {
         setup:
         def permissions = new BlobContainerSasPermission()
@@ -724,7 +724,7 @@ class SasClientTests extends APISpec {
         notThrown(BlobStorageException)
 
         when:
-        def bc = getBlobClient(env.primaryAccount.credential, primaryBlobServiceClient.getAccountUrl() + "/" + containerName + "/" + blobName + "?" + sas)
+        def bc = getBlobClient(environment.primaryAccount.credential, primaryBlobServiceClient.getAccountUrl() + "/" + containerName + "/" + blobName + "?" + sas)
         def file = getRandomFile(256)
         bc.uploadFromFile(file.toPath().toString(), true)
 
@@ -912,7 +912,7 @@ class SasClientTests extends APISpec {
         p.setReadPermission(true)
         def v = new BlobServiceSasSignatureValues(e, p)
 
-        def expected = String.format(expectedStringToSign, env.primaryAccount.name)
+        def expected = String.format(expectedStringToSign, environment.primaryAccount.name)
 
         v.setStartTime(startTime)
 
@@ -929,14 +929,14 @@ class SasClientTests extends APISpec {
             .setContentLanguage(language)
             .setContentType(type)
 
-        def implUtil = new BlobSasImplUtil(v, "containerName", "blobName", snapId, versionId)
+        def implUtil = new BlobSasImplUtil(v, "containerName", "blobName", snapId, versionId, null)
 
-        def sasToken = implUtil.generateSas(env.primaryAccount.credential, Context.NONE)
+        def sasToken = implUtil.generateSas(environment.primaryAccount.credential, Context.NONE)
 
         def token = BlobUrlParts.parse(cc.getBlobContainerUrl() + "?" + sasToken).getCommonSasQueryParameters()
 
         then:
-        token.getSignature() == env.primaryAccount.credential.computeHmac256(expected)
+        token.getSignature() == environment.primaryAccount.credential.computeHmac256(expected)
 
         /*
         We don't test the blob or containerName properties because canonicalized resource is always added as at least
@@ -967,7 +967,7 @@ class SasClientTests extends APISpec {
         def p = new BlobSasPermission().setReadPermission(true)
         def v = new BlobServiceSasSignatureValues(e, p)
 
-        def expected = String.format(expectedStringToSign, env.primaryAccount.name)
+        def expected = String.format(expectedStringToSign, environment.primaryAccount.name)
 
         v.setStartTime(startTime)
 
@@ -993,9 +993,9 @@ class SasClientTests extends APISpec {
             .setSignedVersion(keyVersion)
             .setValue(keyValue)
 
-        def implUtil = new BlobSasImplUtil(v, "containerName", "blobName", snapId, versionId)
+        def implUtil = new BlobSasImplUtil(v, "containerName", "blobName", snapId, versionId, null)
 
-        def sasToken = implUtil.generateUserDelegationSas(key, env.primaryAccount.name, Context.NONE)
+        def sasToken = implUtil.generateUserDelegationSas(key, environment.primaryAccount.name, Context.NONE)
 
         def token = BlobUrlParts.parse(cc.getBlobContainerUrl() + "?" + sasToken).getCommonSasQueryParameters()
 
@@ -1032,19 +1032,19 @@ class SasClientTests extends APISpec {
         setup:
         BlobServiceSasSignatureValues v = new BlobServiceSasSignatureValues(expiryTime, new BlobSasPermission())
 
-        BlobSasImplUtil implUtil = new BlobSasImplUtil(v, containerName, blobName, snapId, null)
+        BlobSasImplUtil implUtil = new BlobSasImplUtil(v, containerName, blobName, snapId, null, null)
 
         expectedStringToSign = String.format(expectedStringToSign,
             Constants.ISO_8601_UTC_DATE_FORMATTER.format(expiryTime),
-            env.primaryAccount.name)
+            environment.primaryAccount.name)
 
         when:
-        String token = implUtil.generateSas(env.primaryAccount.credential, Context.NONE)
+        String token = implUtil.generateSas(environment.primaryAccount.credential, Context.NONE)
 
         def queryParams = new CommonSasQueryParameters(SasImplUtils.parseQueryString(token), true)
 
         then:
-        queryParams.getSignature() == env.primaryAccount.credential.computeHmac256(expectedStringToSign)
+        queryParams.getSignature() == environment.primaryAccount.credential.computeHmac256(expectedStringToSign)
         queryParams.getResource() == expectedResource
 
         where:
@@ -1072,14 +1072,14 @@ class SasClientTests extends APISpec {
         }
         v.setProtocol(protocol)
 
-        def implUtil = new AccountSasImplUtil(v)
+        def implUtil = new AccountSasImplUtil(v, null)
 
-        def sasToken = implUtil.generateSas(env.primaryAccount.credential, Context.NONE)
+        def sasToken = implUtil.generateSas(environment.primaryAccount.credential, Context.NONE)
 
         def token = BlobUrlParts.parse(cc.getBlobContainerUrl() + "?" + sasToken).getCommonSasQueryParameters()
 
         then:
-        token.getSignature() == env.primaryAccount.credential.computeHmac256(String.format(expectedStringToSign, env.primaryAccount.name))
+        token.getSignature() == environment.primaryAccount.credential.computeHmac256(String.format(expectedStringToSign, environment.primaryAccount.name))
 
         where:
         startTime                                                 | ipRange          | protocol               || expectedStringToSign
@@ -1100,7 +1100,7 @@ class SasClientTests extends APISpec {
         values.setBlobName(sasClient.blobName)
 
         when:
-        def deprecatedStringToSign = values.generateSasQueryParameters(env.primaryAccount.credential).encode()
+        def deprecatedStringToSign = values.generateSasQueryParameters(environment.primaryAccount.credential).encode()
         def stringToSign = client.generateSas(values)
 
         then:
